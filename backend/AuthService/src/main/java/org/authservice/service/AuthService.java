@@ -1,6 +1,6 @@
 package org.authservice.service;
 
-import com.sun.security.auth.UserPrincipal;
+
 import org.authservice.dto.request.LoginValidationDTO;
 import org.authservice.dto.response.AuthUserDTO;
 import org.authservice.exception.PasswordIncorrectException;
