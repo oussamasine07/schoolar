@@ -1,6 +1,5 @@
 package org.authservice.exception;
 
-import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -18,7 +17,7 @@ public class CustomErrorHandler {
     public ResponseEntity<Map<String, String>> handlePasswordIncorrectException (
             PasswordIncorrectException ex
     ) {
-        System.out.println("CHECKING EXCEPTIONS: " + ex.getMessage());
+
         Map<String, String> error = new HashMap<>();
         error.put("status", "fail");
         error.put("message", ex.getMessage());

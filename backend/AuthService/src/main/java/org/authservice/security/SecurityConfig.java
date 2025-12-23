@@ -35,8 +35,6 @@ public class SecurityConfig {
             AuthenticationProvider authenticationProvider
     ) throws Exception {
 
-        System.out.println("JWT FILTER: ");
-
         return httpSecurity
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
