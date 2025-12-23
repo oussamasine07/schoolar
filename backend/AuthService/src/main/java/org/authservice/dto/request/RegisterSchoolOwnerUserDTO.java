@@ -6,7 +6,7 @@ import org.authservice.validation.IsEmailAlreadyExists;
 import org.authservice.validation.IsPasswordConfirmed;
 
 @IsPasswordConfirmed
-public record RegisterAppUserDTO(
+public record RegisterSchoolOwnerUserDTO(
     @NotBlank(message = "fistname is required")
     String firstName,
 
