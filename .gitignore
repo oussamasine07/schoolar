@@ -1,11 +1,20 @@
 HELP.md
+
+######### API GATEWAY ##########
+backend/api-gateway/target/
+backend/api-gateway/.mvn/wrapper/maven-wrapper.jar
+
+######### AUTH SERVICE ##########
 backend/AuthService/target/
 backend/AuthService/.mvn/wrapper/maven-wrapper.jar
+### auth secret ###
+backend/AuthService/src/main/resources/secrets.yml
+
+
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### SECRETS ###
-backend/AuthService/src/main/resources/secrets.yml
+
 
 ### STS ###
 .apt_generated
