@@ -3,6 +3,8 @@ HELP.md
 ######### API GATEWAY ##########
 backend/api-gateway/target/
 backend/api-gateway/.mvn/wrapper/maven-wrapper.jar
+### auth secret ###
+backend/api-gateway/src/main/resources/secrets.yml
 
 ######### AUTH SERVICE ##########
 backend/AuthService/target/
