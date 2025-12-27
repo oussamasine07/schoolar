@@ -1,0 +1,20 @@
+
+spring:
+  application:
+    name: school-service
+
+  datasource:
+    url: ${secrets.db.url}
+    username: ${secrets.db.username}
+    password: ${secrets.db.password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  config:
+    import: "classpath:secrets.yml"
+
+server:
+  port: 8091
