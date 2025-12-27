@@ -1,11 +1,28 @@
 HELP.md
+
+######### API GATEWAY ##########
+backend/api-gateway/target/
+backend/api-gateway/.mvn/wrapper/maven-wrapper.jar
+### auth secret ###
+backend/api-gateway/src/main/resources/secrets.yml
+
+######### AUTH SERVICE ##########
 backend/AuthService/target/
 backend/AuthService/.mvn/wrapper/maven-wrapper.jar
+### auth secret ###
+backend/AuthService/src/main/resources/secrets.yml
+
+######### SCHOOL SERVICE ##########
+backend/school-service/target/
+backend/school-service/.mvn/wrapper/maven-wrapper.jar
+### auth secret ###
+backend/school-service/src/main/resources/secrets.yml
+
+
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### SECRETS ###
-backend/AuthService/src/main/resources/secrets.yml
+
 
 ### STS ###
 .apt_generated
