@@ -1,5 +1,7 @@
 package org.apigateway.security;
 
+import org.apigateway.exceptions.JwtAccessDeniedHandler;
+import org.apigateway.exceptions.JwtAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -14,9 +16,18 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 public class SecurityConfig {
 
     @Bean
-    SecurityWebFilterChain securityWebFilterChain (ServerHttpSecurity http, AuthenticationWebFilter jwtAuthenticationWebFilter) {
+    SecurityWebFilterChain securityWebFilterChain (
+            ServerHttpSecurity http,
+            AuthenticationWebFilter jwtAuthenticationWebFilter,
+            JwtAccessDeniedHandler jwtAccessDeniedHandler,
+            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint
+    ) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .exceptionHandling( ex -> ex
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
+                )
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/auth/**")
                         .permitAll()
