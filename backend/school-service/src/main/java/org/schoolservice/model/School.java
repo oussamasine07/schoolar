@@ -2,6 +2,8 @@ package org.schoolservice.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "schools")
 public class School {
