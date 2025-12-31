@@ -1,8 +1,10 @@
 package org.schoolservice.dto.request;
 import jakarta.validation.constraints.NotBlank;
+import org.schoolservice.validation.IsSchoolNameAlreadyExists;
 
 public record SchoolValidationDTO(
         @NotBlank(message = "school name is required")
+        @IsSchoolNameAlreadyExists
         String schoolName,
         @NotBlank(message = "school email is required")
         String email,
