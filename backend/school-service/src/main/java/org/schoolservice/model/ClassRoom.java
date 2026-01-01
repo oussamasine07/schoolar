@@ -2,8 +2,8 @@ package org.schoolservice.model;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "classrooms")
+//@Entity
+//@Table(name = "classrooms")
 public class ClassRoom {
 
     @Id

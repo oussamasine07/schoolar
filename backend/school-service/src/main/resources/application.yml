@@ -11,10 +11,19 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
+
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+    user: ${secrets.db.username}
+    password: ${secrets.db.password}
+    validate-on-migrate: false
+
   config:
     import: "classpath:secrets.yml"
+
 
 server:
   port: 8091
