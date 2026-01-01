@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 
 import java.time.LocalDate;
 
-//@Entity
+@Entity
 public class SchoolYear {
 
     @Id
