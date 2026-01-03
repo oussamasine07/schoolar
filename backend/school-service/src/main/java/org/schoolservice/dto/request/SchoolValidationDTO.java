@@ -17,6 +17,6 @@ public record SchoolValidationDTO(
         int professionalTax,
         int cnssAffiliation,
         int commercialRegister,
-        int commonBusinessIdentifier
+        Long commonBusinessIdentifier
 ) {
 }

@@ -16,7 +16,7 @@ public class SchemaService {
     }
 
     @Transactional
-    public void createSchema ( String schemaName ) {
+    public String createSchema ( String schemaName ) {
         if (!schemaName.matches("[a-zA-Z0-9_]+")) {
             throw new IllegalArgumentException("invalid schema name");
         }
@@ -24,6 +24,8 @@ public class SchemaService {
         entityManager
                 .createNativeQuery("CREATE SCHEMA IF NOT EXISTS " + schemaName)
                 .executeUpdate();
+
+        return schemaName;
     }
 
 }

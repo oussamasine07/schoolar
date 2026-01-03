@@ -26,12 +26,20 @@ public class School {
     @Column(nullable = false)
     private String address;
     private String city;
+    @Column(name = "tax_id")
     private int taxId;
+    @Column(name = "professional_tax")
     private int professionalTax;
+    @Column(name = "cnss_affiliation")
     private int cnssAffiliation;
+    @Column(name = "commercial_register")
     private int commercialRegister;
-    private int commonBusinessIdentifier;
+    @Column(name = "common_business_identifier")
+    private Long commonBusinessIdentifier;
+    @Column(name = "is_active")
     private boolean isActive;
+    @Column(name = "is_ready")
+    private boolean isReady;
 
     public Long getId() {
         return id;
@@ -121,11 +129,11 @@ public class School {
         this.commercialRegister = commercialRegister;
     }
 
-    public int getCommonBusinessIdentifier() {
+    public Long getCommonBusinessIdentifier() {
         return commonBusinessIdentifier;
     }
 
-    public void setCommonBusinessIdentifier(int commonBusinessIdentifier) {
+    public void setCommonBusinessIdentifier(Long commonBusinessIdentifier) {
         this.commonBusinessIdentifier = commonBusinessIdentifier;
     }
 
@@ -135,6 +143,14 @@ public class School {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public void setReady(boolean ready) {
+        isReady = ready;
     }
 }
 

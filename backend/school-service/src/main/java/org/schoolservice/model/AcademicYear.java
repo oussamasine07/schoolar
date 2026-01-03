@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import java.time.LocalDate;
 
 @Entity
-public class SchoolYear {
+public class AcademicYear {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
