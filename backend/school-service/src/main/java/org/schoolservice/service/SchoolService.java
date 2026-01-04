@@ -70,6 +70,9 @@ public class SchoolService {
             // migrate all tables inside this schema
             flywayMigrationService.migrate(dataSource, createdSchema);
 
+            savedSchool.setReady( true );
+            savedSchool = schoolRepo.save( savedSchool );
+
             // TODO: make sure to run migrations for other services after school creation
             return new ResponseEntity<>(savedSchool, HttpStatus.OK);
         }
@@ -82,7 +85,6 @@ public class SchoolService {
         catch (RuntimeException runtimeException) {
             throw runtimeException;
         }
-
     }
 }
 
