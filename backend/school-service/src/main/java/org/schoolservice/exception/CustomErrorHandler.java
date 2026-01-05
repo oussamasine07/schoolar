@@ -62,4 +62,14 @@ public class CustomErrorHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNotFoundException (NotFoundException ex) {
+        Map<String, String> errors = new HashMap<>();
+
+        errors.put("status", String.valueOf(HttpStatus.BAD_REQUEST));
+        errors.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -21,10 +21,17 @@ public class SchoolController {
         this.schoolService = schoolService;
     }
 
-
     @GetMapping("/owner-schools")
     public ResponseEntity<List<School>> listOwnerSchools (@RequestHeader("Authorization") String token) {
         return schoolService.listOwnerSchools( token );
+    }
+
+    @GetMapping("/school/{id}")
+    public ResponseEntity<School> showSchoolByOwnerId (
+            @PathVariable("id") Long schoolId,
+            @RequestHeader("Authorization") String token
+    ) {
+        return schoolService.showSchoolByOwnerId(schoolId, token);
     }
 
     @PostMapping
@@ -35,5 +42,7 @@ public class SchoolController {
 
         return schoolService.createNewSchool( schoolValidationDTO, token );
     }
+
+
 
 }

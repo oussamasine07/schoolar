@@ -46,6 +46,13 @@ public class JwtService {
                 .getPayload();
     }
 
+    public Long extractUserId (String bearerToken) {
+        String token = bearerToken.split(" ")[1];
+
+        Claims claims = extractAllClaims( token );
+        return claims.get("id", Long.class);
+    }
+
     // validate token
     public boolean validateToken (String token) {
         try {

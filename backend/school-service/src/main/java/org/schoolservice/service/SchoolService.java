@@ -3,6 +3,8 @@ package org.schoolservice.service;
 import io.jsonwebtoken.Claims;
 import org.flywaydb.core.api.FlywayException;
 import org.schoolservice.dto.request.SchoolValidationDTO;
+import org.schoolservice.exception.NotFoundException;
+import org.schoolservice.exception.UnauthorizedSchoolException;
 import org.schoolservice.model.School;
 import org.schoolservice.repo.SchoolRepo;
 import org.springframework.dao.DataAccessException;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SchoolService {
@@ -37,15 +40,26 @@ public class SchoolService {
     }
 
     public ResponseEntity<List<School>> listOwnerSchools (String bearerToken) {
-        String token = bearerToken.split(" ")[1];
 
-        Claims claims = jwtService.extractAllClaims( token );
-        Long ownerId = claims.get("id", Long.class);
+        Long ownerId = jwtService.extractUserId( bearerToken );
 
         List<School> schools = schoolRepo.findSchoolsByOwnerId(ownerId);
 
         return new ResponseEntity<>(schools, HttpStatus.OK);
 
+    }
+
+    public ResponseEntity<School> showSchoolByOwnerId (Long schoolId, String bearerToken) {
+
+        Long ownerId = jwtService.extractUserId( bearerToken );
+
+        School foundSchool = schoolRepo.findById( schoolId ).orElseThrow(() -> new NotFoundException("this school not found"));
+
+        if (!Objects.equals(foundSchool.getOwnerId(), ownerId)) {
+            throw new UnauthorizedSchoolException("you are not authorized to enter this school");
+        }
+
+        return new ResponseEntity<>(foundSchool, HttpStatus.OK);
     }
 
     // create a new school
@@ -99,6 +113,8 @@ public class SchoolService {
             throw runtimeException;
         }
     }
+
+
 }
 
 

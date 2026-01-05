@@ -12,4 +12,5 @@ public interface SchoolRepo extends JpaRepository<School, Long> {
     Optional<School> findSchoolBySchoolName(String schoolName);
 
     List<School> findSchoolsByOwnerId(Long ownerId);
+
 }
