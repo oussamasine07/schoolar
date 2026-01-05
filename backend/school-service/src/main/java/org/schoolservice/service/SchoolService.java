@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Service
 public class SchoolService {
@@ -33,6 +34,18 @@ public class SchoolService {
         this.schemaService = schemaService;
         this.flywayMigrationService = flywayMigrationService;
         this.dataSource = dataSource;
+    }
+
+    public ResponseEntity<List<School>> listOwnerSchools (String bearerToken) {
+        String token = bearerToken.split(" ")[1];
+
+        Claims claims = jwtService.extractAllClaims( token );
+        Long ownerId = claims.get("id", Long.class);
+
+        List<School> schools = schoolRepo.findSchoolsByOwnerId(ownerId);
+
+        return new ResponseEntity<>(schools, HttpStatus.OK);
+
     }
 
     // create a new school
