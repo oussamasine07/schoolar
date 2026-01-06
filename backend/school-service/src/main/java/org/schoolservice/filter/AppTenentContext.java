@@ -2,6 +2,7 @@ package org.schoolservice.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.schoolservice.utils.TenentUtil;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,12 @@ public class AppTenentContext implements Filter {
     public static final String HEADER_TENENT = "X-Tenent-ID";
     private static final String DEFAULT_TENENT = "public";
     private static final ThreadLocal<String> currentTenent = new ThreadLocal<>();
+
+    private final TenentUtil tenentUtil;
+
+    public AppTenentContext(TenentUtil tenentUtil) {
+        this.tenentUtil = tenentUtil;
+    }
 
     public static String getCurrentTenent () {
         String tenent = currentTenent.get();
@@ -39,10 +46,13 @@ public class AppTenentContext implements Filter {
     ) throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
-        String tenent = req.getHeader( HEADER_TENENT );
+        String tenentHeader = req.getHeader( HEADER_TENENT );
 
-        if ( tenent != null ) {
-            currentTenent.set( tenent );
+        if ( tenentHeader != null ) {
+            String tenentName = tenentUtil.nameTenent( tenentHeader );
+
+            System.out.println("TENENT NAME IS " + tenentName);
+            currentTenent.set( tenentName );
         }
 
         filterChain.doFilter(request, response);

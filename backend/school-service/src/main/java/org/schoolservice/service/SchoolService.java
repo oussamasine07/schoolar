@@ -6,6 +6,7 @@ import org.schoolservice.dto.request.SchoolValidationDTO;
 import org.schoolservice.exception.NotFoundException;
 import org.schoolservice.model.School;
 import org.schoolservice.repo.SchoolRepo;
+import org.schoolservice.utils.TenentUtil;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class SchoolService {
     private final SchoolRepo schoolRepo;
     private final SchemaService schemaService;
     private final FlywayMigrationService flywayMigrationService;
+    private final TenentUtil tenentUtil;
     private final DataSource dataSource;
 
     public SchoolService (
@@ -28,12 +30,14 @@ public class SchoolService {
             final SchoolRepo schoolRepo,
             final SchemaService schemaService,
             final FlywayMigrationService flywayMigrationService,
+            final TenentUtil tenentUtil,
             final DataSource dataSource
     ) {
         this.jwtService = jwtService;
         this.schoolRepo = schoolRepo;
         this.schemaService = schemaService;
         this.flywayMigrationService = flywayMigrationService;
+        this.tenentUtil = tenentUtil;
         this.dataSource = dataSource;
     }
 
@@ -82,7 +86,7 @@ public class SchoolService {
             School savedSchool = schoolRepo.save( newSchool );
 
             // create schema name, it should be like so (tn_school_name)
-            String schemaName = "tn_" + savedSchool.getSchoolName().replace(" ", "_");
+            String schemaName = tenentUtil.nameTenent( savedSchool.getSchoolName() );
 
             String createdSchema = schemaService.createSchema( schemaName );
 

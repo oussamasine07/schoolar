@@ -30,10 +30,9 @@ public class MultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMu
         return dataSource;
     }
 
-    public Connection getAnyConnection( Object tenentID ) throws SQLException {
+    public Connection getConnection( Object tenentID ) throws SQLException {
         String tenent = tenentID != null ? tenentID.toString() : "public";
         logger.info("connecting with schema " + tenent);
-
         Connection con = getAnyConnection();
 
         try (Statement stmt = con.createStatement()) {

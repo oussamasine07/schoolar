@@ -1,4 +1,4 @@
-CREATE TABLE class_rooms (
+CREATE TABLE classrooms (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
