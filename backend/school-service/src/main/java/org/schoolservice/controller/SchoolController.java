@@ -5,6 +5,7 @@ import org.schoolservice.dto.request.SchoolValidationDTO;
 import org.schoolservice.model.School;
 import org.schoolservice.service.SchoolService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,14 +27,15 @@ public class SchoolController {
         return schoolService.listOwnerSchools( token );
     }
 
-    @GetMapping("/school/{id}")
+    @PreAuthorize("@schoolSecurity.isSchoolOwner(#schoolId, authentication)")
+    @GetMapping("/school/{schoolId}")
     public ResponseEntity<School> showSchoolByOwnerId (
-            @PathVariable("id") Long schoolId,
-            @RequestHeader("Authorization") String token
+            @PathVariable("schoolId") Long schoolId
     ) {
-        return schoolService.showSchoolByOwnerId(schoolId, token);
+        return schoolService.showSchoolByOwnerId(schoolId);
     }
 
+    // TODO add roles (admin, school_owner)
     @PostMapping
     public ResponseEntity<School> createNewSchool (
             @Valid @RequestBody SchoolValidationDTO schoolValidationDTO,

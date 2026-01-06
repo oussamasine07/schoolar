@@ -13,4 +13,5 @@ public interface SchoolRepo extends JpaRepository<School, Long> {
 
     List<School> findSchoolsByOwnerId(Long ownerId);
 
+    boolean existsByIdAndOwnerId(Long id, Long ownerId);
 }

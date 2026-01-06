@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import org.flywaydb.core.api.FlywayException;
 import org.schoolservice.dto.request.SchoolValidationDTO;
 import org.schoolservice.exception.NotFoundException;
-import org.schoolservice.exception.UnauthorizedSchoolException;
 import org.schoolservice.model.School;
 import org.schoolservice.repo.SchoolRepo;
 import org.springframework.dao.DataAccessException;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class SchoolService {
@@ -49,15 +47,9 @@ public class SchoolService {
 
     }
 
-    public ResponseEntity<School> showSchoolByOwnerId (Long schoolId, String bearerToken) {
-
-        Long ownerId = jwtService.extractUserId( bearerToken );
+    public ResponseEntity<School> showSchoolByOwnerId (Long schoolId) {
 
         School foundSchool = schoolRepo.findById( schoolId ).orElseThrow(() -> new NotFoundException("this school not found"));
-
-        if (!Objects.equals(foundSchool.getOwnerId(), ownerId)) {
-            throw new UnauthorizedSchoolException("you are not authorized to enter this school");
-        }
 
         return new ResponseEntity<>(foundSchool, HttpStatus.OK);
     }
