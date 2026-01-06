@@ -90,6 +90,7 @@ public class SchoolService {
             flywayMigrationService.migrate(dataSource, createdSchema);
 
             savedSchool.setReady( true );
+            savedSchool.setTnName( savedSchool.getSchoolName() );
             savedSchool = schoolRepo.save( savedSchool );
 
             // TODO: make sure to run migrations for other services after school creation
@@ -104,6 +105,25 @@ public class SchoolService {
         catch (RuntimeException runtimeException) {
             throw runtimeException;
         }
+    }
+
+    // update school
+    public ResponseEntity<School> updateSchool (SchoolValidationDTO schoolValidationDTO, Long schoolId) {
+        School foundSchool = schoolRepo.findById( schoolId )
+                .orElseThrow(() -> new NotFoundException("unfound school"));
+
+        foundSchool.setSchoolName( schoolValidationDTO.schoolName() );
+        foundSchool.setEmail( schoolValidationDTO.email() );
+        foundSchool.setPhone( schoolValidationDTO.phone() );
+        foundSchool.setAddress( schoolValidationDTO.address() );
+        foundSchool.setCity( schoolValidationDTO.city() );
+        foundSchool.setTaxId( schoolValidationDTO.taxId() );
+        foundSchool.setProfessionalTax( schoolValidationDTO.professionalTax() );
+        foundSchool.setCommercialRegister( schoolValidationDTO.commercialRegister() );
+        foundSchool.setCommonBusinessIdentifier( schoolValidationDTO.commonBusinessIdentifier() );
+        foundSchool.setCnssAffiliation( schoolValidationDTO.cnssAffiliation() );
+
+        return new ResponseEntity<>(schoolRepo.save( foundSchool ), HttpStatus.OK);
     }
 
 

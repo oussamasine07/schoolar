@@ -6,6 +6,7 @@ CREATE TABLE schools (
     phone VARCHAR(50) NOT NULL,
     address VARCHAR(255) NOT NULL,
     city VARCHAR(100),
+    tn_name VARCHAR(100),
     tax_id INTEGER,
     professional_tax INTEGER,
     cnss_affiliation INTEGER,

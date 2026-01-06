@@ -26,6 +26,8 @@ public class School {
     @Column(nullable = false)
     private String address;
     private String city;
+    @Column(name = "tn_name")
+    private String tnName;
     @Column(name = "tax_id")
     private int taxId;
     @Column(name = "professional_tax")
@@ -151,6 +153,14 @@ public class School {
 
     public void setReady(boolean ready) {
         isReady = ready;
+    }
+
+    public String getTnName() {
+        return tnName;
+    }
+
+    public void setTnName(String tnName) {
+        this.tnName = tnName;
     }
 }
 

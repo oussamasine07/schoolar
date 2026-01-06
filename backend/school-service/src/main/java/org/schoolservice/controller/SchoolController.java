@@ -45,6 +45,15 @@ public class SchoolController {
         return schoolService.createNewSchool( schoolValidationDTO, token );
     }
 
+    @PreAuthorize("@schoolSecurity.isSchoolOwner(#schoolId, authentication)")
+    @PutMapping("/school/{schoolId}")
+    public ResponseEntity< School > updateSchool (
+            @PathVariable("schoolId") Long schoolId,
+            @Valid @RequestBody SchoolValidationDTO schoolValidationDTO
+    ) {
+        return schoolService.updateSchool( schoolValidationDTO, schoolId );
+    }
 
+    // TODO implement soft delete later
 
 }
