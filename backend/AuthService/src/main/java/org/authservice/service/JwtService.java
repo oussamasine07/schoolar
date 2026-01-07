@@ -84,6 +84,7 @@ public class JwtService {
     public String generateJwtToken (AppUser appUser) {
         // generate claims
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id", appUser.getId());
         claims.put("firstName", appUser.getFirstName());
         claims.put("lastName", appUser.getLastName());
         claims.put("email", appUser.getEmail());
