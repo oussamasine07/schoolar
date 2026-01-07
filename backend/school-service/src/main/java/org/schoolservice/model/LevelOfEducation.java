@@ -2,8 +2,6 @@ package org.schoolservice.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "levels_of_education")
 public class LevelOfEducation {
@@ -12,8 +10,10 @@ public class LevelOfEducation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "educational_stage")
     private String educationalStage;
 
     public Long getId() {
