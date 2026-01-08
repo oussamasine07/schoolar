@@ -18,6 +18,12 @@ backend/school-service/.mvn/wrapper/maven-wrapper.jar
 ### auth secret ###
 backend/school-service/src/main/resources/secrets.yml
 
+######### STUDENT SERVICE ##########
+backend/student-service/target/
+backend/student-service/.mvn/wrapper/maven-wrapper.jar
+### auth secret ###
+backend/student-service/src/main/resources/secrets.yml
+
 
 !**/src/main/**/target/
 !**/src/test/**/target/

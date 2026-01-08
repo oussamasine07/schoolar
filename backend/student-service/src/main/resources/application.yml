@@ -1,0 +1,28 @@
+
+spring:
+  application:
+    name: student-service
+
+  datasource:
+    url: ${secrets.db.url}
+    username: ${secrets.db.username}
+    password: ${secrets.db.password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+    user: ${secrets.db.username}
+    password: ${secrets.db.password}
+
+  config:
+    import: "classpath:secrets.yml"
+
+
+server:
+  port: 8092
