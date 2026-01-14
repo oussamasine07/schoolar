@@ -20,6 +20,18 @@ spring:
     user: ${secrets.db.username}
     password: ${secrets.db.password}
 
+  kafka:
+    consumer:
+      group-id: student-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: org.studentservice.model.CustomMessage
+        spring.json.trusted.packages: "*"
+    bootstrap-servers: localhost:9092
+
   config:
     import: "classpath:secrets.yml"
 
