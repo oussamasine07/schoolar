@@ -28,7 +28,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.use.type.headers: false
-        spring.json.value.default.type: org.studentservice.model.CustomMessage
+        spring.json.value.default.type: org.studentservice.kafka.events.SchoolCreatedEvent
         spring.json.trusted.packages: "*"
     bootstrap-servers: localhost:9092
 

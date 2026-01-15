@@ -4,8 +4,8 @@ import io.jsonwebtoken.Claims;
 import org.flywaydb.core.api.FlywayException;
 import org.schoolservice.dto.request.SchoolValidationDTO;
 import org.schoolservice.exception.NotFoundException;
-import org.schoolservice.model.CustomMessage;
-import org.schoolservice.model.School;
+import org.schoolservice.kafka.events.SchoolCreatedEvent;
+import org.schoolservice.kafka.producers.SchoolCreatedProducer;import org.schoolservice.model.School;
 import org.schoolservice.repo.SchoolRepo;
 import org.schoolservice.utils.TenentUtil;
 import org.springframework.dao.DataAccessException;
@@ -25,7 +25,7 @@ public class SchoolService {
     private final FlywayMigrationService flywayMigrationService;
     private final TenentUtil tenentUtil;
     private final DataSource dataSource;
-    private final KafkaMessageProducerService kafkaMessageProducerService;
+    private final SchoolCreatedProducer schoolCreatedProducer;
 
     public SchoolService (
             final JwtService jwtService,
@@ -33,7 +33,8 @@ public class SchoolService {
             final SchemaService schemaService,
             final FlywayMigrationService flywayMigrationService,
             final TenentUtil tenentUtil,
-            final DataSource dataSource, KafkaMessageProducerService kafkaMessageProducerService
+            final DataSource dataSource,
+            SchoolCreatedProducer schoolCreatedProducer
     ) {
         this.jwtService = jwtService;
         this.schoolRepo = schoolRepo;
@@ -41,7 +42,7 @@ public class SchoolService {
         this.flywayMigrationService = flywayMigrationService;
         this.tenentUtil = tenentUtil;
         this.dataSource = dataSource;
-        this.kafkaMessageProducerService = kafkaMessageProducerService;
+        this.schoolCreatedProducer = schoolCreatedProducer;
     }
 
     public ResponseEntity<List<School>> listOwnerSchools (String bearerToken) {
@@ -100,10 +101,9 @@ public class SchoolService {
             savedSchool = schoolRepo.save( savedSchool );
 
             // trigger migrations in other services
-            CustomMessage customMessage = new CustomMessage();
-            customMessage.setTitle("migrate");
-            customMessage.setMessage(createdSchema);
-            kafkaMessageProducerService.trigerMigrations( customMessage );
+            SchoolCreatedEvent schoolCreatedEvent = new SchoolCreatedEvent();
+            schoolCreatedEvent.setTenentId( createdSchema );
+            schoolCreatedProducer.onSchoolCreated( schoolCreatedEvent );
 
             return new ResponseEntity<>(savedSchool, HttpStatus.OK);
         }
