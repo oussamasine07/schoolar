@@ -3,11 +3,13 @@ package org.studentservice.filter;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.MDC;
+import org.springframework.stereotype.Component;
 import org.studentservice.utils.TenentUtil;
 
 import java.io.IOException;
 import java.util.Objects;
 
+@Component
 public class AppTenentContext implements Filter {
     public static final String HEADER_TENENT = "X-Tenent-ID";
     private static final String DEFAULT_TENENT = "public";

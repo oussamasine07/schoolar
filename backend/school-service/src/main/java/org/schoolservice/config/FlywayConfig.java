@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 import javax.sql.DataSource;
 
@@ -25,10 +26,11 @@ public class FlywayConfig {
     }
 
     @Bean
+//    @DependsOn("dataSource")
     public Flyway flyway(DataSource dataSource) {
         Flyway fl = Flyway.configure()
                 .outOfOrder(outOfOrder)
-                .baselineOnMigrate(baseLineOnMigrate)
+//                .baselineOnMigrate(baseLineOnMigrate)
                 .locations("classpath:db/migration/default")
                 .schemas("public")
                 .dataSource(dataSource)

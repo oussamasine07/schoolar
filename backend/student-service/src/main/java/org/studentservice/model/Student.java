@@ -9,11 +9,12 @@ import java.time.LocalDate;
 public class Student {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String ref;
 
-    @Column(name = "fistname", nullable = false)
+    @Column(name = "firstname", nullable = false)
     private String firstName;
 
     @Column(name = "lastname", nullable = false)
@@ -30,6 +31,9 @@ public class Student {
 
     @Column(name = "address", nullable = false)
     private String address;
+
+    public Student() {
+    }
 
     public Long getId() {
         return id;

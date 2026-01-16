@@ -19,6 +19,8 @@ spring:
     enabled: true
     user: ${secrets.db.username}
     password: ${secrets.db.password}
+#    locations: classpath:db/migration/default
+#    schemas: pulic
 
   config:
     import: "classpath:secrets.yml"

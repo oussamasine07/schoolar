@@ -48,7 +48,7 @@ public class HibernateConfig {
 
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource( dataSource );
-        em.setPackagesToScan("org.schoolservice.model");
+        em.setPackagesToScan("org.studentservice.model");
         em.setJpaVendorAdapter( jpaVendorAdapter() );
         em.setJpaPropertyMap( jpaPropertiesMap );
 
