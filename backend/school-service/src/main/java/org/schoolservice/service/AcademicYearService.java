@@ -68,7 +68,7 @@ public class AcademicYearService {
 
         Map<String, Object> success = new HashMap<>();
         success.put("status", 200);
-        success.put("classroom", academicYear);
+        success.put("academicYear", academicYear);
 
         academicYearRepo.deleteById( academicYearId );
 

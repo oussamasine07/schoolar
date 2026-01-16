@@ -1,10 +1,10 @@
-package org.schoolservice.filter;
+package org.studentservice.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
-import org.schoolservice.utils.TenentUtil;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
+import org.studentservice.utils.TenentUtil;
 
 import java.io.IOException;
 import java.util.Objects;

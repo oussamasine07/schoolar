@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import org.flywaydb.core.api.FlywayException;
 import org.schoolservice.dto.request.SchoolValidationDTO;
 import org.schoolservice.exception.NotFoundException;
+import org.schoolservice.kafka.events.SchoolCreatedEvent;
+import org.schoolservice.kafka.producers.SchoolCreatedProducer;
 import org.schoolservice.model.School;
 import org.schoolservice.repo.SchoolRepo;
 import org.schoolservice.utils.TenentUtil;
@@ -24,6 +26,7 @@ public class SchoolService {
     private final FlywayMigrationService flywayMigrationService;
     private final TenentUtil tenentUtil;
     private final DataSource dataSource;
+    private final SchoolCreatedProducer schoolCreatedProducer;
 
     public SchoolService (
             final JwtService jwtService,
@@ -31,7 +34,8 @@ public class SchoolService {
             final SchemaService schemaService,
             final FlywayMigrationService flywayMigrationService,
             final TenentUtil tenentUtil,
-            final DataSource dataSource
+            final DataSource dataSource,
+            SchoolCreatedProducer schoolCreatedProducer
     ) {
         this.jwtService = jwtService;
         this.schoolRepo = schoolRepo;
@@ -39,6 +43,7 @@ public class SchoolService {
         this.flywayMigrationService = flywayMigrationService;
         this.tenentUtil = tenentUtil;
         this.dataSource = dataSource;
+        this.schoolCreatedProducer = schoolCreatedProducer;
     }
 
     public ResponseEntity<List<School>> listOwnerSchools (String bearerToken) {
@@ -87,17 +92,20 @@ public class SchoolService {
 
             // create schema name, it should be like so (tn_school_name)
             String schemaName = tenentUtil.nameTenent( savedSchool.getSchoolName() );
-
             String createdSchema = schemaService.createSchema( schemaName );
 
-            // migrate all tables inside this schema
-            flywayMigrationService.migrate(dataSource, createdSchema);
+            // migrate all tables inside the current service
+             flywayMigrationService.migrate(dataSource, createdSchema);
 
             savedSchool.setReady( true );
             savedSchool.setTnName( savedSchool.getSchoolName() );
             savedSchool = schoolRepo.save( savedSchool );
 
-            // TODO: make sure to run migrations for other services after school creation
+            // trigger migrations in other services
+            SchoolCreatedEvent schoolCreatedEvent = new SchoolCreatedEvent();
+            schoolCreatedEvent.setTenentId( createdSchema );
+            schoolCreatedProducer.onSchoolCreated( schoolCreatedEvent );
+
             return new ResponseEntity<>(savedSchool, HttpStatus.OK);
         }
         catch (FlywayException flywayException) {

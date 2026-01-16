@@ -1,7 +1,7 @@
 
 spring:
   application:
-    name: school-service
+    name: student-service
 
   datasource:
     url: ${secrets.db.url}
@@ -19,39 +19,22 @@ spring:
     enabled: true
     user: ${secrets.db.username}
     password: ${secrets.db.password}
-#    locations: classpath:db/migration/default
-#    schemas: pulic
-
-  config:
-    import: "classpath:secrets.yml"
 
   kafka:
-    bootstrap-servers: localhost:9092
     consumer:
-      group-id: school-service
+      group-id: student-service
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: '*'
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: org.studentservice.kafka.events.SchoolCreatedEvent
+        spring.json.trusted.packages: "*"
+    bootstrap-servers: localhost:9092
 
+  config:
+    import: "classpath:secrets.yml"
 
 
 server:
-  port: 8091
-
-
-
-
-
-
-
-
-
-
-
-
-
+  port: 8092
